@@ -5,7 +5,7 @@ import { verify } from 'jsonwebtoken';
 import { TDecode } from '@/models/user';
 import { SECRET_KEY } from '@/config/index';
 
-export const verifyToken = (
+export const validateToken = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -21,7 +21,7 @@ export const verifyToken = (
   }
 };
 
-export const verifyRefreshToken = (
+export const validateRefreshToken = (
   req: Request,
   res: Response,
   next: NextFunction,

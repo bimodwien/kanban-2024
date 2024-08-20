@@ -26,7 +26,6 @@ export class UserController {
       const data = await UserService.register(req);
       res.status(200).send({
         message: 'Register success',
-        data,
       });
     } catch (error) {
       next(error);
