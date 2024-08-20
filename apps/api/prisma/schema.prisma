@@ -19,3 +19,36 @@ model Sample {
 
   @@map("samples") // if you want to use snake_case format
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String
+  email     String
+  fullName  String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  todos     Todo[]
+
+  @@map("users")
+}
+
+model Todo {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  status    Status
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("todos")
+}
+
+enum Status {
+  todo
+  inProgress
+  review
+  finished
+}
