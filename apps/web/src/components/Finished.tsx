@@ -6,7 +6,7 @@ const Finished = (props: Props) => {
   return (
     <>
       <section className="border border-[#E5E5E5] bg-[#F9F9F9] p-4 shadow-xl mb-5 rounded-md">
-        <h3 className="font-poppins font-medium mb-5">Finised</h3>
+        <h3 className="font-poppins font-medium mb-5">Finished</h3>
         <div className="flex flex-col gap-5">
           <div className="border border-[#666666] p-3 pb-16 rounded-md bg-white relative">
             <div className="flex items-center gap-1">
