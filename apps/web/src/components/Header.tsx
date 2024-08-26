@@ -1,12 +1,17 @@
+import Link from 'next/link';
+
 export const Header = () => {
   return (
     <>
       <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
         <div className="flex items-center justify-between mx-auto py-4 px-10">
           <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <h1 className="self-center text-2xl font-semibold whitespace-nowrap">
+            <Link
+              href={'/'}
+              className="self-center text-2xl font-semibold whitespace-nowrap"
+            >
               Kanban
-            </h1>
+            </Link>
           </div>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
