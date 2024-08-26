@@ -1,7 +1,7 @@
 import { Todo } from '@prisma/client';
 
 export type TUser = {
-  id: number;
+  id: string;
   username: string;
   email: string;
   fullName: string;

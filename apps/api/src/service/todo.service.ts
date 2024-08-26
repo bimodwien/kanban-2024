@@ -12,6 +12,7 @@ class TodoService {
           select: {
             id: true,
             username: true,
+            fullName: true,
           },
         },
       },
@@ -24,13 +25,14 @@ class TodoService {
     const { id } = req.params;
     const todo = await prisma.todo.findUnique({
       where: {
-        id: Number(id),
+        id: String(id),
       },
       include: {
         user: {
           select: {
             id: true,
             username: true,
+            fullName: true,
           },
         },
       },
@@ -60,7 +62,7 @@ class TodoService {
   }
 
   static async create(req: Request) {
-    const { title, content } = req.body;
+    const { title, content, order } = req.body;
     const userId = req.user?.id;
 
     if (!userId) {
@@ -72,6 +74,7 @@ class TodoService {
         title,
         content,
         status: Status.todo,
+        order: order || 'low',
         userId,
       },
     });
@@ -81,11 +84,11 @@ class TodoService {
 
   static async edit(req: Request) {
     const { id } = req.params;
-    const { title, content } = req.body;
+    const { title, content, order } = req.body;
     const userId = req.user?.id;
 
     const todo = await prisma.todo.findUnique({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
 
     if (!todo) {
@@ -99,10 +102,11 @@ class TodoService {
     }
 
     const updatedTodo = await prisma.todo.update({
-      where: { id: Number(id) },
+      where: { id: String(id) },
       data: {
         title,
         content,
+        order,
       },
     });
 
@@ -115,7 +119,7 @@ class TodoService {
     const userId = req.user?.id;
 
     const todo = await prisma.todo.findUnique({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
 
     if (!todo) {
@@ -131,7 +135,7 @@ class TodoService {
     }
 
     const updatedTodo = await prisma.todo.update({
-      where: { id: Number(id) },
+      where: { id: String(id) },
       data: {
         status,
       },
@@ -145,7 +149,7 @@ class TodoService {
     const userId = req.user?.id;
 
     const todo = await prisma.todo.findUnique({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
 
     if (!todo) {
@@ -157,7 +161,7 @@ class TodoService {
     }
 
     const deleteTodo = await prisma.todo.delete({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
     return deleteTodo;
   }
