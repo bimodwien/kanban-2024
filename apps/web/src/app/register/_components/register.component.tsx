@@ -1,10 +1,40 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { axiosInstance } from '@/lib/axios';
+import { useRouter } from 'next/navigation';
 
-type Props = {};
+const RegisterComponent = () => {
+  const router = useRouter();
 
-const RegisterComponent = (props: Props) => {
+  const initialValues = {
+    username: '',
+    fullName: '',
+    email: '',
+    password: '',
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: Yup.object().shape({
+      username: Yup.string().required(),
+      email: Yup.string().required().email('Invalid email address'),
+      password: Yup.string().required(),
+      fullName: Yup.string().required(),
+    }),
+    onSubmit: async (values) => {
+      try {
+        await axiosInstance().post('/users/register', values);
+        alert('Registration Success');
+        router.push('/login');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
   return (
     <>
       <section>
@@ -20,7 +50,10 @@ const RegisterComponent = (props: Props) => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 font-poppins">
                 Create an account
               </h1>
-              <form action="" className="space-y-4 md:space-y-6">
+              <form
+                onSubmit={formik.handleSubmit}
+                className="space-y-4 md:space-y-6"
+              >
                 <div>
                   <label
                     htmlFor="email"
@@ -30,9 +63,9 @@ const RegisterComponent = (props: Props) => {
                   </label>
                   <input
                     type="email"
-                    name="email"
                     id="email"
                     className="bg-[#FAF9F6] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    {...formik.getFieldProps('email')}
                   />
                 </div>
                 <div>
@@ -44,9 +77,9 @@ const RegisterComponent = (props: Props) => {
                   </label>
                   <input
                     type="text"
-                    name="fullName"
                     id="fullName"
                     className="bg-[#FAF9F6] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    {...formik.getFieldProps('fullName')}
                   />
                 </div>
                 <div>
@@ -58,9 +91,9 @@ const RegisterComponent = (props: Props) => {
                   </label>
                   <input
                     type="text"
-                    name="username"
                     id="username"
                     className="bg-[#FAF9F6] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    {...formik.getFieldProps('username')}
                   />
                 </div>
                 <div>
@@ -72,9 +105,9 @@ const RegisterComponent = (props: Props) => {
                   </label>
                   <input
                     type="password"
-                    name="password"
                     id="password"
                     className="bg-[#FAF9F6] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    {...formik.getFieldProps('password')}
                   />
                 </div>
                 <button

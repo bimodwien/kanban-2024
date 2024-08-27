@@ -1,8 +1,42 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { userLogin } from '@/lib/redux/middleware/auth.middleware';
+import { useRouter } from 'next/navigation';
 
 const LoginComponent = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const initialValues = {
+    username: '',
+    password: '',
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: Yup.object().shape({
+      username: Yup.string().required(),
+      password: Yup.string().required(),
+    }),
+    onSubmit: async (values) => {
+      try {
+        await dispatch(
+          userLogin({
+            username: values.username,
+            password: values.password,
+          }),
+        );
+        alert('User login success');
+        router.push('/');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
   return (
     <>
       <section>
@@ -18,7 +52,10 @@ const LoginComponent = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl font-poppins">
                 Sign in to your account
               </h1>
-              <form action="" className="space-y-4 md:space-y-6">
+              <form
+                onSubmit={formik.handleSubmit}
+                className="space-y-4 md:space-y-6"
+              >
                 <div>
                   <label
                     htmlFor="username"
@@ -28,9 +65,9 @@ const LoginComponent = () => {
                   </label>
                   <input
                     type="text"
-                    name="username"
                     id="username"
                     className="bg-[#FAF9F6] border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    {...formik.getFieldProps('username')}
                   />
                 </div>
                 <div>
@@ -42,9 +79,9 @@ const LoginComponent = () => {
                   </label>
                   <input
                     type="password"
-                    name="password"
                     id="password"
                     className="bg-[#FAF9F6] border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    {...formik.getFieldProps('password')}
                   />
                 </div>
                 <button
@@ -54,7 +91,7 @@ const LoginComponent = () => {
                   Sign In
                 </button>
                 <p className="text-sm font-light text-black font-poppins">
-                  Don't have an account?{' '}
+                  Don&#39;t have an account?{' '}
                   <Link
                     href={'/register'}
                     className="font-medium text-blue-600 hover:underline font-poppins"
