@@ -24,6 +24,11 @@ function AddModal({ isOpen, onClose }: AddModalProps) {
 
   const formik = useFormik({
     initialValues,
+    validationSchema: Yup.object().shape({
+      title: Yup.string().required('Title is required'),
+      content: Yup.string().required('Content is required'),
+      order: Yup.string().required('Order is required'),
+    }),
     onSubmit: async (values) => {
       try {
         const { data } = await axiosInstance().post('/todos', values);
@@ -82,6 +87,9 @@ function AddModal({ isOpen, onClose }: AddModalProps) {
                   className="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   {...formik.getFieldProps('order')}
                 >
+                  <option value="" disabled className="font-poppins">
+                    Select an option
+                  </option>
                   <option value="low" className="font-poppins">
                     Low
                   </option>
