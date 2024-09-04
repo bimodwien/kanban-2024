@@ -1,14 +1,29 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
+import AddModal from './AddModal';
 
 type Props = {};
 
 function Todo({}: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <section className="border border-[#E5E5E5] bg-[#F9F9F9] p-4 shadow-xl mb-5 rounded-md">
         <div className="flex justify-between items-center">
           <h3 className="font-poppins font-medium mb-5">Todo</h3>
-          <button className="font-poppins font-medium mb-5 underline underline-offset-4">
+          <button
+            onClick={openModal}
+            className="font-poppins font-medium mb-5 underline underline-offset-4"
+          >
             Add Todo
           </button>
         </div>
@@ -97,6 +112,7 @@ function Todo({}: Props) {
             </div>
           </div>
         </div>
+        <AddModal isOpen={isModalOpen} onClose={closeModal} />
       </section>
     </>
   );
