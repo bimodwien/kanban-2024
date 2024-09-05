@@ -7,15 +7,20 @@ import * as Yup from 'yup';
 import { axiosInstance } from '@/lib/axios';
 import { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
+import { TTodos } from '@/models/todo.model';
 import { useRouter } from 'next/navigation';
+import { fetchTodo } from '@/helpers/fetchTodo';
 
 interface AddModalProps {
   isOpen: boolean;
   onClose: () => void;
+  addTodo: (newTodo: TTodos) => void;
+  setTodos: (value: React.SetStateAction<TTodos[]>) => void;
 }
 
-function AddModal({ isOpen, onClose }: AddModalProps) {
+function AddModal({ isOpen, onClose, addTodo, setTodos }: AddModalProps) {
   const router = useRouter();
+
   const initialValues = {
     title: '',
     content: '',
@@ -32,9 +37,14 @@ function AddModal({ isOpen, onClose }: AddModalProps) {
     onSubmit: async (values) => {
       try {
         const { data } = await axiosInstance().post('/todos', values);
-        alert(data.message);
+        addTodo(data.newTodo);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: data.message,
+        });
         formik.resetForm();
-        router.refresh();
+        fetchTodo(setTodos);
         onClose();
       } catch (error) {
         if (error instanceof AxiosError) {
