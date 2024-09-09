@@ -8,7 +8,6 @@ import { axiosInstance } from '@/lib/axios';
 import { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
 import { TTodos } from '@/models/todo.model';
-import { useRouter } from 'next/navigation';
 import { fetchTodo } from '@/helpers/fetchTodo';
 
 interface AddModalProps {
@@ -19,8 +18,6 @@ interface AddModalProps {
 }
 
 function AddModal({ isOpen, onClose, addTodo, setTodos }: AddModalProps) {
-  const router = useRouter();
-
   const initialValues = {
     title: '',
     content: '',
