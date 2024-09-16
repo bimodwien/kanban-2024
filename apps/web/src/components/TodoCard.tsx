@@ -5,9 +5,10 @@ import { TTodos } from '@/models/todo.model';
 
 interface TodoCardProps {
   todo: TTodos;
+  onEdit?: () => void;
 }
 
-function TodoCard({ todo }: TodoCardProps) {
+function TodoCard({ todo, onEdit }: TodoCardProps) {
   const priorityClass = (priority: string) => {
     switch (priority) {
       case 'low':
@@ -49,7 +50,10 @@ function TodoCard({ todo }: TodoCardProps) {
         <button className="font-poppins text-left px-2 py-1 text-white text-opacity-90 bg-[#DE1D6E] rounded-md">
           Delete
         </button>
-        <button className="font-poppins text-left px-2 py-1 text-white text-opacity-90 bg-[#4F1DDE] rounded-md">
+        <button
+          className="font-poppins text-left px-2 py-1 text-white text-opacity-90 bg-[#4F1DDE] rounded-md"
+          onClick={onEdit}
+        >
           Edit
         </button>
       </div>

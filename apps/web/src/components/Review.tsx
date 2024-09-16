@@ -4,13 +4,11 @@ import { TTodos } from '@/models/todo.model';
 import { fetchTodo } from '@/helpers/fetchTodo';
 import TodoCard from './TodoCard';
 
-const Review = () => {
-  const [todos, setTodos] = useState<TTodos[]>([]);
+interface ReviewProps {
+  todos: TTodos[];
+}
 
-  useEffect(() => {
-    fetchTodo(setTodos);
-  }, []);
-
+const Review = ({ todos }: ReviewProps) => {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'review',
   );

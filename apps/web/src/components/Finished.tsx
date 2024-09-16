@@ -1,16 +1,14 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TTodos } from '@/models/todo.model';
-import { fetchTodo } from '@/helpers/fetchTodo';
+
 import TodoCard from './TodoCard';
 
-const Finished = () => {
-  const [todos, setTodos] = useState<TTodos[]>([]);
+interface FinishedProps {
+  todos: TTodos[];
+}
 
-  useEffect(() => {
-    fetchTodo(setTodos);
-  }, []);
-
+const Finished = ({ todos }: FinishedProps) => {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'finished',
   );

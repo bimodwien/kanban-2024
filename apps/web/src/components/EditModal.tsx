@@ -1,8 +1,15 @@
+'use client';
+import { TTodos } from '@/models/todo.model';
 import React from 'react';
 
-type Props = {};
+interface EditModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  todo: TTodos;
+  updatedTodo: (updatedTodo: TTodos) => void;
+}
 
-function EditModal({}: Props) {
+function EditModal({ isOpen, onClose, todo, updatedTodo }: EditModalProps) {
   return (
     <>
       <div>EditModal</div>

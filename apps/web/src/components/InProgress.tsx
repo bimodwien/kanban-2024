@@ -1,16 +1,13 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TTodos } from '@/models/todo.model';
-import { fetchTodo } from '@/helpers/fetchTodo';
 import TodoCard from './TodoCard';
 
-function InProgress() {
-  const [todos, setTodos] = useState<TTodos[]>([]);
+interface InProgressProps {
+  todos: TTodos[];
+}
 
-  useEffect(() => {
-    fetchTodo(setTodos);
-  }, []);
-
+function InProgress({ todos }: InProgressProps) {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'inProgress',
   );

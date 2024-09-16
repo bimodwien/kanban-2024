@@ -1,17 +1,20 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import AddModal from './AddModal';
-import { TTodos } from '@/models/todo.model';
-import { fetchTodo } from '@/helpers/fetchTodo';
 import TodoCard from './TodoCard';
+import EditModal from './EditModal';
+import { TTodos } from '@/models/todo.model';
 
-function Todo() {
+interface TodoProps {
+  todos: TTodos[];
+  setTodos: React.Dispatch<React.SetStateAction<TTodos[]>>;
+}
+
+function Todo({ todos, setTodos }: TodoProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [todos, setTodos] = useState<TTodos[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  useEffect(() => {
-    fetchTodo(setTodos);
-  }, []);
+  const [todoToEdit, setTodoToEdit] = useState<TTodos | null>(null);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,8 +24,26 @@ function Todo() {
     setIsModalOpen(false);
   };
 
+  const openEditModal = (todo: TTodos) => {
+    setTodoToEdit(todo);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setTodoToEdit(null);
+  };
+
   const addTodo = (newTodo: TTodos) => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
+  };
+
+  const updateTodo = (updatedTodo: TTodos) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === updatedTodo.id ? updatedTodo : todo,
+      ),
+    );
   };
 
   const filteredTodos = todos.filter((todo) => todo && todo.status === 'todo');
@@ -41,7 +62,13 @@ function Todo() {
         </div>
         <div className="flex flex-col gap-5">
           {filteredTodos.map((todo) => {
-            return <TodoCard key={todo.id} todo={todo} />;
+            return (
+              <TodoCard
+                key={todo.id}
+                todo={todo}
+                onEdit={() => openEditModal(todo)}
+              />
+            );
           })}
         </div>
         <AddModal
@@ -50,6 +77,14 @@ function Todo() {
           addTodo={addTodo}
           setTodos={setTodos}
         />
+        {todoToEdit && (
+          <EditModal
+            isOpen={isEditModalOpen}
+            onClose={closeEditModal}
+            todo={todoToEdit}
+            updatedTodo={updateTodo}
+          />
+        )}
       </section>
     </>
   );
