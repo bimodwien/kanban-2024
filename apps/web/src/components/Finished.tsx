@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { TTodos } from '@/models/todo.model';
-
 import TodoCard from './TodoCard';
 
 interface FinishedProps {

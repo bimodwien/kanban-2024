@@ -1,7 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { TTodos } from '@/models/todo.model';
-import { fetchTodo } from '@/helpers/fetchTodo';
 import TodoCard from './TodoCard';
 
 interface ReviewProps {
