@@ -5,9 +5,10 @@ import TodoCard from './TodoCard';
 
 interface InProgressProps {
   todos: TTodos[];
+  openEditModal: (todo: TTodos) => void;
 }
 
-function InProgress({ todos }: InProgressProps) {
+function InProgress({ todos, openEditModal }: InProgressProps) {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'inProgress',
   );
@@ -18,7 +19,13 @@ function InProgress({ todos }: InProgressProps) {
         <h3 className="font-poppins font-medium mb-5">In Progress</h3>
         <div className="flex flex-col gap-5">
           {filteredTodos.map((todo) => {
-            return <TodoCard key={todo.id} todo={todo} />;
+            return (
+              <TodoCard
+                key={todo.id}
+                todo={todo}
+                onEdit={() => openEditModal(todo)}
+              />
+            );
           })}
         </div>
       </section>

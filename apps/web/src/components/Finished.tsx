@@ -5,9 +5,10 @@ import TodoCard from './TodoCard';
 
 interface FinishedProps {
   todos: TTodos[];
+  openEditModal: (todo: TTodos) => void;
 }
 
-const Finished = ({ todos }: FinishedProps) => {
+const Finished = ({ todos, openEditModal }: FinishedProps) => {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'finished',
   );
@@ -18,7 +19,13 @@ const Finished = ({ todos }: FinishedProps) => {
         <h3 className="font-poppins font-medium mb-5">Finished</h3>
         <div className="flex flex-col gap-5">
           {filteredTodos.map((todo) => {
-            return <TodoCard key={todo.id} todo={todo} />;
+            return (
+              <TodoCard
+                key={todo.id}
+                todo={todo}
+                onEdit={() => openEditModal(todo)}
+              />
+            );
           })}
         </div>
       </section>

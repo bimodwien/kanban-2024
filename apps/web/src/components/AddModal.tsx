@@ -65,7 +65,7 @@ function AddModal({ isOpen, onClose, addTodo, setTodos }: AddModalProps) {
         className="mx-auto md:px-6 lg:w-[40%]"
       >
         <form onSubmit={formik.handleSubmit}>
-          <Modal.Header className="px-6 py-2">Terms of Service</Modal.Header>
+          <Modal.Header className="px-6 py-2">Add New Todo</Modal.Header>
           <Modal.Body>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
@@ -125,7 +125,7 @@ function AddModal({ isOpen, onClose, addTodo, setTodos }: AddModalProps) {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="bg-[#0e7490]" type="submit">
+            <Button className="bg-[#0E7490]" type="submit">
               Save
             </Button>
           </Modal.Footer>

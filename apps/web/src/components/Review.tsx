@@ -5,9 +5,10 @@ import TodoCard from './TodoCard';
 
 interface ReviewProps {
   todos: TTodos[];
+  openEditModal: (todo: TTodos) => void;
 }
 
-const Review = ({ todos }: ReviewProps) => {
+const Review = ({ todos, openEditModal }: ReviewProps) => {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'review',
   );
@@ -18,7 +19,13 @@ const Review = ({ todos }: ReviewProps) => {
         <h3 className="font-poppins font-medium mb-5">Review</h3>
         <div className="flex flex-col gap-5">
           {filteredTodos.map((todo) => {
-            return <TodoCard key={todo.id} todo={todo} />;
+            return (
+              <TodoCard
+                key={todo.id}
+                todo={todo}
+                onEdit={() => openEditModal(todo)}
+              />
+            );
           })}
         </div>
       </section>

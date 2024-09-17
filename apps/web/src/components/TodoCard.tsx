@@ -5,7 +5,7 @@ import { TTodos } from '@/models/todo.model';
 
 interface TodoCardProps {
   todo: TTodos;
-  onEdit?: () => void;
+  onEdit: () => void;
 }
 
 function TodoCard({ todo, onEdit }: TodoCardProps) {
