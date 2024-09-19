@@ -18,7 +18,11 @@ export class TodoRouter {
     this.router.get('/:id', this.todoController.getById);
     this.router.post('/', validateToken, this.todoController.create);
     this.router.put('/:id', validateToken, this.todoController.edit);
-    this.router.patch('/:id', validateToken, this.todoController.updateStatus);
+    this.router.patch(
+      '/status/:id',
+      validateToken,
+      this.todoController.updateStatus,
+    );
     this.router.delete('/:id', validateToken, this.todoController.delete);
   }
 

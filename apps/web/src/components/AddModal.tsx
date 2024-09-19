@@ -61,7 +61,6 @@ function AddModal({ isOpen, onClose, addTodo, setTodos }: AddModalProps) {
       <Modal
         show={isOpen}
         onClose={onClose}
-        dismissible
         className="mx-auto md:px-6 lg:w-[40%]"
       >
         <form onSubmit={formik.handleSubmit}>

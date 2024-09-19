@@ -24,6 +24,10 @@ export default function Home() {
   };
 
   const updatedTodo = (updatedTodo: TTodos) => {
+    if (!updatedTodo) {
+      console.log('updatedTodo is undefined');
+      return;
+    }
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === updatedTodo.id ? updatedTodo : todo,
