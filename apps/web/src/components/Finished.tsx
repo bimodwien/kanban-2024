@@ -6,9 +6,10 @@ import TodoCard from './TodoCard';
 interface FinishedProps {
   todos: TTodos[];
   openEditModal: (todo: TTodos) => void;
+  onDeleteTodo: (id: string) => void;
 }
 
-const Finished = ({ todos, openEditModal }: FinishedProps) => {
+const Finished = ({ todos, openEditModal, onDeleteTodo }: FinishedProps) => {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'finished',
   );
@@ -24,6 +25,7 @@ const Finished = ({ todos, openEditModal }: FinishedProps) => {
                 key={todo.id}
                 todo={todo}
                 onEdit={() => openEditModal(todo)}
+                onDelete={() => onDeleteTodo(todo.id)}
               />
             );
           })}

@@ -19,9 +19,16 @@ interface EditModalProps {
   onClose: () => void;
   todo: TTodos;
   updatedTodo: (updatedTodo: TTodos) => void;
+  setTodos: (value: React.SetStateAction<TTodos[]>) => void;
 }
 
-function EditModal({ isOpen, onClose, todo, updatedTodo }: EditModalProps) {
+function EditModal({
+  isOpen,
+  onClose,
+  todo,
+  updatedTodo,
+  setTodos,
+}: EditModalProps) {
   const initialValues = {
     title: todo.title || '',
     content: todo.content || '',
@@ -69,6 +76,7 @@ function EditModal({ isOpen, onClose, todo, updatedTodo }: EditModalProps) {
         });
         formik.resetForm();
         onClose();
+        fetchTodo(setTodos);
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({

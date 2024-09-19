@@ -6,9 +6,10 @@ import TodoCard from './TodoCard';
 interface InProgressProps {
   todos: TTodos[];
   openEditModal: (todo: TTodos) => void;
+  onDeleteTodo: (id: string) => void;
 }
 
-function InProgress({ todos, openEditModal }: InProgressProps) {
+function InProgress({ todos, openEditModal, onDeleteTodo }: InProgressProps) {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'inProgress',
   );
@@ -24,6 +25,7 @@ function InProgress({ todos, openEditModal }: InProgressProps) {
                 key={todo.id}
                 todo={todo}
                 onEdit={() => openEditModal(todo)}
+                onDelete={() => onDeleteTodo(todo.id)}
               />
             );
           })}

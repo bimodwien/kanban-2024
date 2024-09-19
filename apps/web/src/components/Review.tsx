@@ -6,9 +6,10 @@ import TodoCard from './TodoCard';
 interface ReviewProps {
   todos: TTodos[];
   openEditModal: (todo: TTodos) => void;
+  onDeleteTodo: (id: string) => void;
 }
 
-const Review = ({ todos, openEditModal }: ReviewProps) => {
+const Review = ({ todos, openEditModal, onDeleteTodo }: ReviewProps) => {
   const filteredTodos = todos.filter(
     (todo) => todo && todo.status === 'review',
   );
@@ -24,6 +25,7 @@ const Review = ({ todos, openEditModal }: ReviewProps) => {
                 key={todo.id}
                 todo={todo}
                 onEdit={() => openEditModal(todo)}
+                onDelete={() => onDeleteTodo(todo.id)}
               />
             );
           })}

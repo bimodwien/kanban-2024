@@ -6,7 +6,7 @@ import Review from '@/components/Review';
 import Todo from '@/components/Todo';
 import EditModal from '@/components/EditModal';
 import { TTodos } from '@/models/todo.model';
-import { fetchTodo } from '@/helpers/fetchTodo';
+import { fetchTodo, deleteTodo } from '@/helpers/fetchTodo';
 
 export default function Home() {
   const [todos, setTodos] = useState<TTodos[]>([]);
@@ -35,6 +35,15 @@ export default function Home() {
     );
   };
 
+  const handleDeleteTodo = async (id: string) => {
+    try {
+      await deleteTodo(id);
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
+
   useEffect(() => {
     fetchTodo(setTodos);
   }, []);
@@ -47,10 +56,23 @@ export default function Home() {
             todos={todos}
             setTodos={setTodos}
             openEditModal={openEditModal}
+            onDeleteTodo={handleDeleteTodo}
           />
-          <InProgress todos={todos} openEditModal={openEditModal} />
-          <Review todos={todos} openEditModal={openEditModal} />
-          <Finished todos={todos} openEditModal={openEditModal} />
+          <InProgress
+            todos={todos}
+            openEditModal={openEditModal}
+            onDeleteTodo={handleDeleteTodo}
+          />
+          <Review
+            todos={todos}
+            openEditModal={openEditModal}
+            onDeleteTodo={handleDeleteTodo}
+          />
+          <Finished
+            todos={todos}
+            openEditModal={openEditModal}
+            onDeleteTodo={handleDeleteTodo}
+          />
         </div>
         {todoToEdit && (
           <EditModal
@@ -58,6 +80,7 @@ export default function Home() {
             onClose={closeEditModal}
             todo={todoToEdit}
             updatedTodo={updatedTodo}
+            setTodos={setTodos}
           />
         )}
       </section>

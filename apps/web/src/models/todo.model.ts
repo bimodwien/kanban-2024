@@ -1,7 +1,7 @@
 import { TUser } from './user.model';
 
 export type TTodos = {
-  id?: string;
+  id: string;
   title?: string;
   content?: string;
   status?: string;

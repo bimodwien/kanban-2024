@@ -2,13 +2,15 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { TTodos } from '@/models/todo.model';
+import { on } from 'events';
 
 interface TodoCardProps {
   todo: TTodos;
   onEdit: () => void;
+  onDelete: () => void;
 }
 
-function TodoCard({ todo, onEdit }: TodoCardProps) {
+function TodoCard({ todo, onEdit, onDelete }: TodoCardProps) {
   const priorityClass = (priority: string) => {
     switch (priority) {
       case 'low':
@@ -47,7 +49,10 @@ function TodoCard({ todo, onEdit }: TodoCardProps) {
           : ''}
       </p>
       <div className="flex gap-3 py-1">
-        <button className="font-poppins text-left px-2 py-1 text-white text-opacity-90 bg-[#DE1D6E] rounded-md">
+        <button
+          className="font-poppins text-left px-2 py-1 text-white text-opacity-90 bg-[#DE1D6E] rounded-md"
+          onClick={onDelete}
+        >
           Delete
         </button>
         <button
