@@ -15,12 +15,21 @@ export const userSlice = createSlice({
   initialState: initialUser as TUser,
   reducers: {
     login: (state, action: PayloadAction<TUser>) => {
-      state = { ...state, ...action.payload };
+      state.id = action.payload.id;
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state.fullName = action.payload.fullName;
+      state.password = action.payload.password;
       return state;
     },
     logout: (state) => {
-      deleteCookie('access_token'), deleteCookie('refresh_token');
-      state = initialUser;
+      deleteCookie('access_token');
+      deleteCookie('refresh_token');
+      state.id = initialUser.id;
+      state.username = initialUser.username;
+      state.email = initialUser.email;
+      state.fullName = initialUser.fullName;
+      state.password = initialUser.password;
       return state;
     },
   },

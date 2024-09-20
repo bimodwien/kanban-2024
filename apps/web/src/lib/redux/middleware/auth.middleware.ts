@@ -17,14 +17,13 @@ export const userLogin = ({ username, password }: TUser) => {
       if (access_token) {
         const user: TUser = jwtDecode(access_token);
         dispatch(login(user));
+      } else {
+        throw new Error("Can't get access token");
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-        deleteCookie('access_token');
-        alert('Wrong username or password');
-        return error.message;
-      }
+    } catch (error: any) {
+      deleteCookie('access_token');
+      deleteCookie('refresh_token');
+      throw error;
     }
   };
 };

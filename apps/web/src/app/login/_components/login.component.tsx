@@ -7,6 +7,7 @@ import { useAppDispatch } from '@/lib/redux/hooks';
 import Swal from 'sweetalert2';
 import { userLogin } from '@/lib/redux/middleware/auth.middleware';
 import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 
 const LoginComponent = () => {
   const router = useRouter();
@@ -39,12 +40,16 @@ const LoginComponent = () => {
         }).then(() => {
           router.push('/');
         });
-      } catch (error: any) {
-        const errorMessage = error.response?.data?.message;
+      } catch (error) {
+        let errorMessage = 'There was an issue logging in. Please try again.';
+        if (error instanceof AxiosError) {
+          errorMessage = error.response?.data?.message || errorMessage;
+        } else if (error instanceof Error) {
+          errorMessage = error.message;
+        }
         Swal.fire({
           title: 'Error!',
-          text:
-            errorMessage || 'There was an issue logging in. Please try again.',
+          text: errorMessage,
           icon: 'error',
           confirmButtonText: 'OK',
           confirmButtonColor: '#EF5A6F',

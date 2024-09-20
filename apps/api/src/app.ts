@@ -13,6 +13,7 @@ import { SampleRouter } from './routers/sample.router';
 import { corsOption } from './config/index';
 import { UserRouter } from './routers/user.router';
 import { TodoRouter } from './routers/todo.router';
+import { AppError } from './appError';
 
 export default class App {
   private app: Express;
@@ -42,12 +43,13 @@ export default class App {
 
     // error
     this.app.use(
-      (err: Error, req: Request, res: Response, next: NextFunction) => {
+      (err: any, req: Request, res: Response, next: NextFunction) => {
         if (req.path.includes('/api/')) {
           console.error('Error : ', err.stack);
+          const statusCode = err.statusCode || 500;
           res
-            .status(500)
-            .send({ error: err.message || 'Internal Server Error' });
+            .status(statusCode)
+            .json({ error: err.message || 'Internal Server Error' });
         } else {
           next();
         }

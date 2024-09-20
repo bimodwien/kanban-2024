@@ -5,6 +5,7 @@ import { TUser } from '@/models/user';
 import { hashPassword, comparePassword } from '@/libs/bcrypt';
 import { createToken } from '@/libs/jwt';
 import { Prisma } from '@prisma/client';
+import { AppError } from '@/appError';
 
 class UserService {
   static async register(req: Request) {
@@ -51,13 +52,13 @@ class UserService {
       },
     })) as TUser;
 
-    if (!user) throw new Error('User tidak ditemukan');
+    if (!user) throw new AppError('User tidak ditemukan', 404);
 
-    if (!user.password) throw new Error('Password tidak ditemukan');
+    if (!user.password) throw new AppError('Password tidak ditemukan', 400);
 
     const checkPassword = await comparePassword(user.password, password);
 
-    if (!checkPassword) throw new Error('Wrong Password');
+    if (!checkPassword) throw new AppError('Wrong Password', 401);
 
     delete user.password;
 
