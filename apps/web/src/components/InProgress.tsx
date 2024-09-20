@@ -16,7 +16,7 @@ function InProgress({ todos, openEditModal, onDeleteTodo }: InProgressProps) {
 
   return (
     <>
-      <section className="border border-[#E5E5E5] bg-[#F9F9F9] p-4 shadow-xl mb-5 rounded-md">
+      <section className="border border-[#E5E5E5] bg-[#F9F9F9] p-4 shadow-xl mb-5 rounded-md md:w-full">
         <h3 className="font-poppins font-medium mb-5">In Progress</h3>
         <div className="flex flex-col gap-5">
           {filteredTodos.map((todo) => {
