@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
 import { axiosInstance } from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 
@@ -27,9 +28,26 @@ const RegisterComponent = () => {
     onSubmit: async (values) => {
       try {
         await axiosInstance().post('/users/register', values);
-        alert('Registration Success');
-        router.push('/login');
-      } catch (error) {
+        Swal.fire({
+          title: 'Registration Successful!',
+          text: 'You have successfully created an account.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#3085d6',
+        }).then(() => {
+          router.push('/login');
+        });
+      } catch (error: any) {
+        const errorMessage = error.response?.data?.message;
+        Swal.fire({
+          title: 'Error!',
+          text:
+            errorMessage ||
+            'There was an issue with the registration. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#EF5A6F',
+        });
         console.log(error);
       }
     },

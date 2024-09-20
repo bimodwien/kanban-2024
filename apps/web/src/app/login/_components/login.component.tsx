@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch } from '@/lib/redux/hooks';
+import Swal from 'sweetalert2';
 import { userLogin } from '@/lib/redux/middleware/auth.middleware';
 import { useRouter } from 'next/navigation';
 
@@ -29,9 +30,25 @@ const LoginComponent = () => {
             password: values.password,
           }),
         );
-        alert('User login success');
-        router.push('/');
-      } catch (error) {
+        Swal.fire({
+          title: 'Login Successful!',
+          text: 'You have successfully logged in.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#3085d6',
+        }).then(() => {
+          router.push('/');
+        });
+      } catch (error: any) {
+        const errorMessage = error.response?.data?.message;
+        Swal.fire({
+          title: 'Error!',
+          text:
+            errorMessage || 'There was an issue logging in. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#EF5A6F',
+        });
         console.log(error);
       }
     },

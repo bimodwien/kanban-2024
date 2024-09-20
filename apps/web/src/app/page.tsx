@@ -5,6 +5,7 @@ import InProgress from '@/components/InProgress';
 import Review from '@/components/Review';
 import Todo from '@/components/Todo';
 import EditModal from '@/components/EditModal';
+import Swal from 'sweetalert2';
 import { TTodos } from '@/models/todo.model';
 import { fetchTodo, deleteTodo } from '@/helpers/fetchTodo';
 
@@ -36,12 +37,37 @@ export default function Home() {
   };
 
   const handleDeleteTodo = async (id: string) => {
-    try {
-      await deleteTodo(id);
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-    } catch (error) {
-      console.error('Error deleting todo:', error);
-    }
+    Swal.fire({
+      title: 'Are you sure you want to delete this Todo?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#EF5A6F',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteTodo(id);
+          setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'Todo has been deleted.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6',
+          });
+        } catch (error) {
+          Swal.fire({
+            title: 'Error!',
+            text: 'There was a problem deleting the todo.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#EF5A6F',
+          });
+        }
+      }
+    });
   };
 
   useEffect(() => {
