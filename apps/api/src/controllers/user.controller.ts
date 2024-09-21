@@ -11,7 +11,7 @@ export class UserController {
         .status(200)
         .cookie('access_token', access_token)
         .cookie('refresh_token', refresh_token)
-        .send({
+        .json({
           message: 'login success',
           access_token: access_token,
           refresh_token: refresh_token,

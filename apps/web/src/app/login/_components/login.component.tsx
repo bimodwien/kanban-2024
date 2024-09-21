@@ -6,11 +6,9 @@ import * as Yup from 'yup';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import Swal from 'sweetalert2';
 import { userLogin } from '@/lib/redux/middleware/auth.middleware';
-import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 
 const LoginComponent = () => {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const initialValues = {
     username: '',
@@ -38,7 +36,7 @@ const LoginComponent = () => {
           confirmButtonText: 'OK',
           confirmButtonColor: '#3085d6',
         }).then(() => {
-          router.push('/');
+          window.location.href = '/';
         });
       } catch (error) {
         let errorMessage = 'There was an issue logging in. Please try again.';
