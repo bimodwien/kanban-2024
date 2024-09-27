@@ -1,34 +1,45 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import prisma from '@/prisma';
 
 export class SampleController {
-  async getSampleData(req: Request, res: Response) {
-    const sampleData = await prisma.sample.findMany();
-
-    return res.status(200).send(sampleData);
-  }
-
-  async getSampleDataById(req: Request, res: Response) {
-    const { id } = req.params;
-
-    const sample = await prisma.sample.findUnique({
-      where: { id: Number(id) },
-    });
-
-    if (!sample) {
-      return res.send(404);
+  public getSampleData: RequestHandler = async (req, res, next) => {
+    try {
+      const sampleData = await prisma.sample.findMany();
+      res.status(200).send(sampleData);
+    } catch (error) {
+      next(error);
     }
+  };
 
-    return res.status(200).send(sample);
-  }
+  public getSampleDataById: RequestHandler = async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
-  async createSampleData(req: Request, res: Response) {
-    const { name, code } = req.body;
+      const sample = await prisma.sample.findUnique({
+        where: { id: Number(id) },
+      });
 
-    const newSampleData = await prisma.sample.create({
-      data: { name, code },
-    });
+      if (!sample) {
+        res.sendStatus(404);
+      } else {
+        res.status(200).send(sample);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 
-    return res.status(201).send(newSampleData);
-  }
+  public createSampleData: RequestHandler = async (req, res, next) => {
+    try {
+      const { name, code } = req.body;
+
+      const newSampleData = await prisma.sample.create({
+        data: { name, code },
+      });
+
+      res.status(201).send(newSampleData);
+    } catch (error) {
+      next(error);
+    }
+  };
 }

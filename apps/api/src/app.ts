@@ -13,7 +13,6 @@ import { SampleRouter } from './routers/sample.router';
 import { corsOption } from './config/index';
 import { UserRouter } from './routers/user.router';
 import { TodoRouter } from './routers/todo.router';
-import { AppError } from './appError';
 
 export default class App {
   private app: Express;
