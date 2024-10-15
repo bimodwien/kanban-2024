@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "serve": "next start",
-    "start": "next start",
+    "start": "npm run serve",
     "lint": "next lint",
     "test": "npx cypress verify & cypress run --component"
   },
