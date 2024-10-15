@@ -9,6 +9,7 @@
     "lint": {},
     "test": {},
     "serve": {},
+    "start": {},
     "dev": {
       "cache": false,
       "persistent": true
